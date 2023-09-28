@@ -1,6 +1,6 @@
 package com.example.btncontroll;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -8,40 +8,42 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import Enums.ActivityEnum;
+
 public class BtnControl extends AppCompatActivity {
 
     ImageView imageView;
     TextView textView;
     Button next;
     Button back;
-    Activity activity;
-    public int currentPage=0;
 
+//    public int currentPage = 0;
+    ActivityEnum activity = ActivityEnum.Main;
 
-
+    @SuppressLint("SetTextI18n")
     public void displayPageContent() {
-        switch (currentPage) {
-            case 0:
+        switch (activity) {
+            case Main:
                 imageView.setVisibility(View.GONE);
                 textView.setText("Home");
                 next.setVisibility(View.VISIBLE);
                 back.setVisibility(View.GONE);
                 break;
-            case 1:
+            case First:
                 imageView.setVisibility(View.VISIBLE);
                 imageView.setImageResource(R.drawable.user1);
                 textView.setText("Page 1 content.");
                 next.setVisibility(View.VISIBLE);
                 back.setVisibility(View.VISIBLE);
                 break;
-            case 2:
+            case Second:
                 imageView.setVisibility(View.VISIBLE);
                 imageView.setImageResource(R.drawable.user2);
                 textView.setText("Page 2 content.");
                 next.setVisibility(View.VISIBLE);
                 back.setVisibility(View.VISIBLE);
                 break;
-            case 3:
+            case End:
                 imageView.setVisibility(View.VISIBLE);
                 imageView.setImageResource(R.drawable.user3);
                 textView.setText("Page 3 content.");
@@ -52,15 +54,15 @@ public class BtnControl extends AppCompatActivity {
     }
 
     public void nextPage() {
-        if (currentPage < 4) {
-            currentPage++;
+        if (activity.ordinal() < ActivityEnum.values().length - 1) {
+            activity = ActivityEnum.values()[activity.ordinal() + 1];
             displayPageContent();
         }
     }
 
     public void previousPage() {
-        if (currentPage > 0) {
-            currentPage--;
+        if (activity.ordinal() > 0) {
+            activity = ActivityEnum.values()[activity.ordinal() - 1];
             displayPageContent();
         }
     }
